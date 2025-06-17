@@ -1,0 +1,19 @@
+<div>
+            <div class="inline-flex justify-between w-full px-3 pt-3 pb-2">
+                <p class="text-xl font-semibold mb-0">
+                    {{data?.header?.name}}
+                </p>
+                <mat-icon (click)="onCancel()" class="text-red-600 cursor-pointer">close</mat-icon>
+            </div>
+
+            <div>
+
+                <app-ag-grid-table
+                    [gridClass]="'ag-theme-quartz height-vmformlist'"
+                    [rowData]="data.dataSource"
+                    [pagination]="true"
+                    [defaultColDef]="defaultTableColumns"
+                    [columnDefs]="tableColumns">
+            </app-ag-grid-table>
+            </div>
+</div>
