@@ -150,7 +150,7 @@ export class AppComponent {
       this.dialog.open(ChartPopupComponent, {
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '200ms',
-        hasBackdrop: true,
+        hasBackdrop: true, 
         backdropClass: 'dialog-backdrop',
         panelClass: 'custom-dialog-container',
         data: {
