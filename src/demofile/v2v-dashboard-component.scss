@@ -1,0 +1,58 @@
+.mat-mdc-table .mdc-data-table__cell, .mat-mdc-table .mat-mdc-footer-cell, .mat-mdc-table .mat-mdc-header-cell{
+    padding: 5px !important;
+}
+
+.search-btn {
+    @apply cursor-pointer rounded-md text-white font-normal text-base px-4 py-2 inline-flex gap-2 bg-sky-600 ml-4 mb-4
+}
+
+.cancel-btn {
+    @apply cursor-pointer rounded-md text-white font-normal text-base px-4 py-2 inline-flex gap-2 bg-red-600 ml-4 mb-4
+}
+
+.redbg {
+    @apply bg-red-600
+}
+
+.redicon{
+    @apply text-red-400
+}
+
+.host-card {
+    -webkit-box-shadow: 0.1vh 0.1vh 0.3vh #bfbfbf;
+    box-shadow: 0.1vh 0.1vh 0.3vh #bfbfbf;
+    background-color: #fff;
+    -webkit-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    // padding: 10px;
+}
+
+.host-card:hover {
+    -webkit-box-shadow: 0.64vh 0.64vh 1.5vh #bfbfbf;
+    box-shadow: 0.64vh 0.64vh 1.5vh #bfbfbf;
+}
+
+.border-left-o{
+    border-left: 3px solid #ff8c00;
+    padding-left: 8px;
+    height: 68px;
+}
+
+.border-left-bl{
+    border-left: 3px solid #02328b;
+    padding-left: 8px;
+    height: 68px;
+}
+
+.border-left-g{
+    border-left: 3px solid #3d8b02;
+    padding-left: 8px;
+    height: 68px;
+}
+
+.host-card mat-form-field{
+    max-width: 90% !important;
+}
