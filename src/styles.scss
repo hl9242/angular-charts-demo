@@ -1,1 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+/* Backdrop style */
+.dialog-backdrop {
+  background: rgba(0, 0, 0, 0.5) !important;
+  z-index: 1000;
+}
+
+/* Center + animation */
+.custom-dialog-container {
+   animation: fadeIn 0.3s ease-in-out;
+  border-radius: 12px;
+  padding: 0;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-btn {
+ background: linear-gradient(to right, #ff416c, #ff4b2b);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-btn:hover {
+  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  transform: scale(1.05);
+}
+
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
