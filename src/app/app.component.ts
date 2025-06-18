@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartDataset, ChartEvent, ChartType } from 'chart.js';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChartPopupComponent } from './chartPop-up/chart-popup.component';
-import { jsonData } from '../app/jsonData';
+import { jsonData } from '../app/psp-dashboard/jsonData';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +15,31 @@ import { jsonData } from '../app/jsonData';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  // pieChartDatas: ChartData<'pie', number[], string | string[]> = {
+  //   labels: [],
+  //   datasets: [],
+  // };
+  // barChartDatas: ChartData<'bar', number[], string | string[]> = {
+  //   labels: [],
+  //   datasets: [],
+  // };
+  // targetChartDatas: ChartData<'doughnut', number[], string | string[]> = {
+  //   labels: [],
+  //   datasets: [],
+  // };
   pieChartDatas: ChartData<'pie', number[], string | string[]> = {
     labels: [],
     datasets: [],
   };
+  barChartDatas: ChartData<'bar', number[], string | string[]> = {
+    labels: [],
+    datasets: [],
+  };
+  targetChartDatas: ChartData<'doughnut', number[], string | string[]> = {
+    labels: [],
+    datasets: [],
+  };
+
   constructor(private dialog: MatDialog) {
     // jsonData.p2pStatusResponseList.forEach((item) => {
     //   const cio = item.cio || 'Unknown';
@@ -26,44 +47,132 @@ export class AppComponent {
     // });
   }
   ngOnInit(): void {
-    const cioCounts: { [key: string]: number } = {};
+    // const cioCounts: { [key: string]: number } = {};
+    // const migrationGroup: { [key: string]: number } = {};
+    // const targetDate: { [key: string]: number } = {};
+    // // Loop through JSON data
+    // jsonData.pspStatusResponseList.forEach((item) => {
+    //   const cio = item.cio || 'Unknown';
+    //   const migration = item.migrationGroup || 'Unknown';
+    //   const targetDates = item.targetDate || 'Unknown';
+    //   //set the count
+    //   cioCounts[cio] = (cioCounts[cio] || 0) + 1;
+    //   migrationGroup[migration] = (migrationGroup[migration] || 0) + 1;
+    //   targetDate[targetDates] = (targetDate[targetDates] || 0) + 1;
+    // });
 
-    // Loop through JSON data
-    jsonData.p2pStatusResponseList.forEach((item) => {
+    // // Assign to chart properties
+    // const labels = Object.keys(cioCounts);
+    // const data = Object.values(cioCounts);
+
+    // const barLabels = Object.keys(migrationGroup);
+    // const barData = Object.values(migrationGroup);
+
+    // const targetDateLabels = Object.keys(targetDate);
+    // const targetDateData = Object.values(targetDate);
+
+    // this.pieChartDatas = {
+    //   labels: labels,
+    //   datasets: [
+    //     {
+    //       data: data,
+    //       label: 'CIO Count',
+    //     },
+    //   ],
+    // };
+    // this.barChartDatas = {
+    //   labels: targetDateLabels,
+    //   datasets: [
+    //     {
+    //       data: targetDateData,
+    //       label: 'Target Date Count',
+    //     },
+    //   ],
+    // };
+    // this.targetChartDatas = {
+    //   labels: barLabels,
+    //   datasets: [
+    //     {
+    //       data: barData,
+    //       label: 'MigrationGroup Count ',
+    //     },
+    //   ],
+    // };
+    const cioCounts: { [key: string]: number } = {};
+    const migrationGroup: { [key: string]: number } = {};
+    const targetDate: { [key: string]: number } = {};
+
+    jsonData.pspStatusResponseList.forEach((item) => {
       const cio = item.cio || 'Unknown';
+      const migration = item.migrationGroup || 'Unknown';
+      const targetDates = item.targetDate || 'Unknown';
+
       cioCounts[cio] = (cioCounts[cio] || 0) + 1;
+      migrationGroup[migration] = (migrationGroup[migration] || 0) + 1;
+      targetDate[targetDates] = (targetDate[targetDates] || 0) + 1;
     });
 
-    // Assign to chart properties
-    const labels = Object.keys(cioCounts);
-    const data = Object.values(cioCounts);
+    this.pieChartDatas = {
+      labels: Object.keys(cioCounts),
+      datasets: [
+        {
+          data: Object.values(cioCounts),
+          label: 'CIO Count',
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Optional styling
+        } as ChartDataset<'pie', number[]>,
+      ],
+    };
 
-      this.pieChartDatas = {
-        labels: labels,
-        datasets: [
-          {
-            data: data,
-            label: 'CIO Count',
-          },
-        ],
-      };
+    this.barChartDatas = {
+      labels: Object.keys(targetDate),
+      datasets: [
+        {
+          data: Object.values(targetDate),
+          label: 'Target Date Count',
+          backgroundColor: '#42A5F5',
+        } as ChartDataset<'bar', number[]>,
+      ],
+    };
+
+    this.targetChartDatas = {
+      labels: Object.keys(migrationGroup),
+      datasets: [
+        {
+          data: Object.values(migrationGroup),
+          label: 'Migration Group Count',
+          backgroundColor: ['#66BB6A', '#FFA726', '#AB47BC'],
+        } as ChartDataset<'doughnut', number[]>,
+      ],
+    };
   }
   title = 'Angular Charts Demo';
+  // 🔁 Reusable method to count values by field
+  private countByField(
+    fieldName: keyof (typeof jsonData.pspStatusResponseList)[0]
+  ): Record<string, number> {
+    const countMap: Record<string, number> = {};
 
-  // barChartLabels: string[] = Object.keys(this.cioCounts);
-  // barChartDatas: number[] = Object.values(this.cioCounts);
-  // pieChartsColors = [
-  //   {
-  //     backgroundColor: [
-  //       '#4285F4',
-  //       '#DB4437',
-  //       '#F4B400',
-  //       '#0F9D58',
-  //       '#AB47BC',
-  //       '#8E24AA',
-  //     ],
-  //   },
-  // ];
+    jsonData.pspStatusResponseList.forEach((item) => {
+      const key = item[fieldName] || 'Unknown';
+      countMap[key] = (countMap[key] || 0) + 1;
+    });
+
+    return countMap;
+  }
+  // 🎯 Reusable method to build ChartData
+  // ✅ Strongly typed generic function
+ 
+  // 🆕 Empty chart data template
+  private createEmptyChartData(): ChartData<
+    'pie' | 'bar' | 'doughnut',
+    number[],
+    string | string[]
+  > {
+    return {
+      labels: [],
+      datasets: [],
+    };
+  }
   // Line Chart
   public lineChartData: ChartConfiguration['data'] = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -104,23 +213,9 @@ export class AppComponent {
 
   // Bar Chart
   public barChartData: ChartConfiguration['data'] = {
-    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-    datasets: [
-      {
-        data: [542, 1200, 786, 1500],
-        label: 'Revenue',
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-      },
-      {
-        data: [300, 700, 450, 900],
-        label: 'Expenses',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-      },
-    ],
+    labels: this.barChartDatas.labels,
+
+    datasets: this.barChartDatas.datasets,
   };
 
   public barChartOptions: ChartConfiguration['options'] = {
@@ -132,7 +227,7 @@ export class AppComponent {
       },
       title: {
         display: true,
-        text: 'CIO charts',
+        text: 'Migration charts',
       },
     },
   };
@@ -150,7 +245,7 @@ export class AppComponent {
       this.dialog.open(ChartPopupComponent, {
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '200ms',
-        hasBackdrop: true, 
+        hasBackdrop: true,
         backdropClass: 'dialog-backdrop',
         panelClass: 'custom-dialog-container',
         data: {
@@ -170,7 +265,7 @@ export class AppComponent {
   public pieChartData: ChartConfiguration['data'] = {
     labels: this.pieChartDatas.labels,
 
-    datasets: this.pieChartDatas.datasets
+    datasets: this.pieChartDatas.datasets,
   };
 
   public pieChartOptions: ChartConfiguration['options'] = {
@@ -190,27 +285,9 @@ export class AppComponent {
 
   // Doughnut Chart
   public doughnutChartData: ChartConfiguration['data'] = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
-    datasets: [
-      {
-        data: [300, 150, 100, 200, 50],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.7)',
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 206, 86, 0.7)',
-          'rgba(75, 192, 192, 0.7)',
-          'rgba(153, 102, 255, 0.7)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
+    labels: this.targetChartDatas.labels,
+
+    datasets: this.targetChartDatas.datasets,
   };
 
   public doughnutChartOptions: ChartConfiguration['options'] = {
@@ -221,7 +298,7 @@ export class AppComponent {
       },
       title: {
         display: true,
-        text: 'Product Distribution',
+        text: 'Target Date',
       },
     },
   };

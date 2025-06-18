@@ -7,7 +7,8 @@
       <canvas baseChart
         [type]="'line'"
         [data]="lineChartData"
-        [options]="lineChartOptions">
+        [options]="lineChartOptions"
+         height="230px">
       </canvas>
     </div>
 
@@ -15,8 +16,9 @@
       <h2>Bar Chart</h2>
       <canvas baseChart
         [type]="'bar'"
-        [data]="barChartData"
-        [options]="barChartOptions">
+        [data]="barChartDatas"
+        [options]="barChartOptions"
+         height="230px">
       
       </canvas>
     </div>
@@ -26,7 +28,9 @@
       <canvas baseChart
         [type]="'pie'"
         [data]="pieChartDatas"
-        [options]="pieChartOptions">
+        [options]="pieChartOptions"
+         height="230px"
+        >
       </canvas>
     </div>
 
@@ -34,8 +38,10 @@
       <h2>Doughnut Chart</h2>
       <canvas baseChart
         [type]="'doughnut'"
-        [data]="doughnutChartData"
-        [options]="doughnutChartOptions">
+        [data]="targetChartDatas"
+        [options]="doughnutChartOptions"
+         height="230px"
+        >
       </canvas>
     </div>
   </div>
